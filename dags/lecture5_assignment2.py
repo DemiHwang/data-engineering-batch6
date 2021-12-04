@@ -91,19 +91,7 @@ with DAG(DAG_ID, default_args=default_args, schedule_interval=None) as dag:
     drop_duplicates = RedshiftSQLOperator(
         task_id='drop_duplicates',
         redshift_conn_id='lecture_redshift',
-        sql="""
-            BEGIN;
-            DELETE FROM demi.weather_forecast;
-            INSERT INTO demi.weather_forecast
-            SELECT date, temperature, min_temperature, max_temperature, created_date
-            FROM (
-                SELECT
-                    *,
-                    ROW_NUMBER() OVER (PARTITION BY date ORDER BY created_date DESC) seq
-                FROM demi.temp_weather_forecast)
-                WHERE seq = 1;
-            END;
-        """,
+        sql="BEGIN;DELETE FROM demi.weather_forecast; INSERT INTO demi.weather_forecast SELECT date, temperature, min_temperature, max_temperature, created_date FROM ( SELECT *, ROW_NUMBER() OVER (PARTITION BY date ORDER BY created_date DESC) seq FROM demi.temp_weather_forecast) WHERE seq = 1; END;"
     )
 
     create_and_replicate_table >> weathermap_to_redshift >> drop_duplicates
