@@ -45,7 +45,6 @@ def etl():
     load(lines)
 
 
-
 DAG_ID = "lecture5_assignment1"
 default_args = {
     "concurrency": 1,
