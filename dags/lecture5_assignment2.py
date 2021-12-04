@@ -40,7 +40,7 @@ def load(json_array):
     for elem in json_array['daily']:
         if not elem:
             continue
-        date = datetime.datetime.utcfromtimestamp(elem['dt']).strftime('%Y-%m-%d')
+        date = datetime.utcfromtimestamp(elem['dt']).strftime('%Y-%m-%d')
         temperature = elem['temp']['day']
         min_temperature = elem['temp']['min']
         max_temperature = elem['temp']['max']
