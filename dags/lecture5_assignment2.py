@@ -37,7 +37,7 @@ def load(json_array):
     logging.info("load started")
     cur = get_Redshift_connection()
     sql = "BEGIN;DELETE FROM demi.weather_forecast;"
-    for elem in json_array:
+    for elem in json_array['daily']:
         if not elem:
             continue
         date = elem['dt']
