@@ -106,4 +106,4 @@ with DAG(DAG_ID, default_args=default_args, schedule_interval=None) as dag:
         ]
     )
 
-    replicate_table >> weathermap_to_redshift >> drop_duplicates
+    create_and_replicate_table >> weathermap_to_redshift >> drop_duplicates
