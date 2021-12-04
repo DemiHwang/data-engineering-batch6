@@ -67,6 +67,7 @@ default_args = {
 with DAG(DAG_ID, default_args=default_args, schedule_interval=None) as dag:
     create_and_replicate_table = RedshiftSQLOperator(
         task_id='create_and_replicate_table',
+        redshift_conn_id='lecture_redshift',
         sql=[
             """
             CREATE TABLE IF NOT EXISTS demi.weather_forecast (
@@ -89,6 +90,7 @@ with DAG(DAG_ID, default_args=default_args, schedule_interval=None) as dag:
 
     drop_duplicates = RedshiftSQLOperator(
         task_id='drop_duplicates',
+        redshift_conn_id='lecture_redshift',
         sql=[
             "BEGIN;",
             "DELETE FROM demi.weather_forecast;",
