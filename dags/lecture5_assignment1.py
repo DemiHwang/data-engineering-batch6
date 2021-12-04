@@ -4,7 +4,6 @@ from airflow.operators.python import PythonOperator
 from datetime import datetime
 import requests
 import logging
-import psycopg2
 
 def get_Redshift_connection():
     hook = PostgresHook(postgres_conn_id='lecture_redshift')
