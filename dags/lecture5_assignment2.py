@@ -5,6 +5,7 @@ from airflow.operators.python import PythonOperator
 from datetime import datetime
 import requests
 import logging
+import json
 
 VARIABLE_OPEN_WEATHER_MAP_KEY = 'openweathermap'
 SEOUL_LATTITUDE = 37.53
@@ -27,7 +28,7 @@ def extract_json(exclude_parts='minutely,hourly'):
         )
     )
     f_json = f.json()
-    logging.info('json:', f_json)
+    logging.debug(json.dumps(f_json))
     logging.info("Extract done")
     return f_json
 
