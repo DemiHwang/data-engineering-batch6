@@ -1,5 +1,6 @@
 from airflow import DAG
 from airflow.models import Variable
+from airflow.providers.postgres.hooks.postgres import PostgresHook
 from airflow.operators.python import PythonOperator
 from datetime import datetime
 import requests
