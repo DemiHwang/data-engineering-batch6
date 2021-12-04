@@ -28,11 +28,11 @@ def transform(text):
 def load(lines):
     logging.info("load started")
     cur = get_Redshift_connection()
-    sql = "BEGIN;DELETE FROM keeyong.name_gender;"
+    sql = "BEGIN;DELETE FROM demi.name_gender;"
     for l in lines:
         if l != '':
             (name, gender) = l.split(",")
-            sql += f"INSERT INTO keeyong.name_gender VALUES ('{name}', '{gender}');"
+            sql += f"INSERT INTO demi.name_gender VALUES ('{name}', '{gender}');"
     sql += "END;"
     cur.execute(sql)
     logging.info(sql)
