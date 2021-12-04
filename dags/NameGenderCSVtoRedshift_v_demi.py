@@ -1,4 +1,5 @@
 from airflow import DAG
+from airflow.providers.postgres.hooks.postgres import PostgresHook
 from airflow.operators.python import PythonOperator
 from datetime import datetime
 import requests
@@ -6,15 +7,8 @@ import logging
 import psycopg2
 
 def get_Redshift_connection():
-    host = "learnde.cduaw970ssvt.ap-northeast-2.redshift.amazonaws.com"
-    user = "keeyong"  # 본인 ID 사용
-    password = "..."  # 본인 Password 사용
-    port = 5439
-    dbname = "dev"
-    conn = psycopg2.connect(f"dbname={dbname} user={user} host={host} password={password} port={port}")
-    conn.set_session(autocommit=True)
-    return conn.cursor()
-
+    hook = PostgresHook(postgres_conn_id='lecture_redshift')
+    return hook.get_cursor()
 
 def extract(url):
     logging.info("Extract started")
