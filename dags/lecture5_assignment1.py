@@ -45,13 +45,16 @@ def etl():
     load(lines)
 
 
-dag_second_assignment = DAG(
-	dag_id = 'lecture5_assignment1',
-    catchup = False,
-	start_date = datetime(2021,11,27), # 날짜가 미래인 경우 실행이 안됨
-	schedule_interval = '0 2 * * *')  # 적당히 조절
 
-task = PythonOperator(
-	task_id = 'perform_etl',
-	python_callable = etl,
-	dag = dag_second_assignment)
+DAG_ID = "lecture5_assignment1"
+default_args = {
+    "concurrency": 1,
+    "catchup": False,
+    "start_date": datetime(2021, 11, 27)
+}
+
+with DAG(DAG_ID, default_args=default_args, schedule_interval=None) as dag:
+    task = PythonOperator(
+        task_id = 'perform_etl',
+        python_callable = etl,
+    )
