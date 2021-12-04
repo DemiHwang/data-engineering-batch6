@@ -44,7 +44,7 @@ def load(json_array):
         temperature = elem['temp']['day']
         min_temperature = elem['temp']['min']
         max_temperature = elem['temp']['max']
-        sql += f"INSERT INTO demi.name_gender VALUES ({date}, {temperature}, {min_temperature}, {max_temperature});"
+        sql += f"INSERT INTO demi.weather_forecast VALUES ({date}, {temperature}, {min_temperature}, {max_temperature});"
     sql += "END;"
     cur.execute(sql)
     logging.info(sql)
