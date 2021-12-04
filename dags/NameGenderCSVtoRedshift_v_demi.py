@@ -47,8 +47,8 @@ def etl():
 
 
 dag_second_assignment = DAG(
-	dag_id = 'second_assignment',
-  catchup = False,
+	dag_id = 'lecture5_assignment1',
+    catchup = False,
 	start_date = datetime(2021,11,27), # 날짜가 미래인 경우 실행이 안됨
 	schedule_interval = '0 2 * * *')  # 적당히 조절
 
