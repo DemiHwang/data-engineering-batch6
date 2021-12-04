@@ -7,7 +7,6 @@ from datetime import datetime
 import requests
 import logging
 import json
-import re
 
 VARIABLE_OPEN_WEATHER_MAP_KEY = 'openweathermap'
 SEOUL_LATTITUDE = 37.53
@@ -57,29 +56,6 @@ def etl():
     response_json = extract_json()
     load(response_json)
 
-def drop_duplicates():
-    logging.info("removing duplicated records...")
-    cur = get_Redshift_connection()
-    sqls = [
-        "BEGIN;",
-        "DELETE FROM demi.weather_forecast;",
-        """
-        INSERT INTO demi.weather_forecast
-        SELECT date, temperature, min_temperature, max_temperature, created_date
-        FROM (
-            SELECT
-                *,
-                ROW_NUMBER() OVER (PARTITION BY date ORDER BY created_date DESC) seq
-            FROM demi.temp_weather_forecast)
-        WHERE seq = 1;
-        END;
-        """,
-    ]
-    sql = "".join(sqls).replace("\n", "")
-    sql = re.sub('\s+', ' ', sql)
-    cur.execute(sql)
-    logging.info(sql)
-    logging.info("remove done")
 
 DAG_ID = "lecture5_assignment2"
 default_args = {
@@ -112,9 +88,22 @@ with DAG(DAG_ID, default_args=default_args, schedule_interval=None) as dag:
         python_callable=etl,
     )
 
-    keep_uniquness = PythonOperator(
+    drop_duplicates = RedshiftSQLOperator(
         task_id='drop_duplicates',
-        python_callable=drop_duplicates,
+        redshift_conn_id='lecture_redshift',
+        sql="""
+            BEGIN;
+            DELETE FROM demi.weather_forecast;
+            INSERT INTO demi.weather_forecast
+            SELECT date, temperature, min_temperature, max_temperature, created_date
+            FROM (
+                SELECT
+                    *,
+                    ROW_NUMBER() OVER (PARTITION BY date ORDER BY created_date DESC) seq
+                FROM demi.temp_weather_forecast)
+                WHERE seq = 1;
+            END;
+        """,
     )
 
-    create_and_replicate_table >> weathermap_to_redshift >> keep_uniquness
+    create_and_replicate_table >> weathermap_to_redshift >> drop_duplicates
