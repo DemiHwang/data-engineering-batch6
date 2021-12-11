@@ -27,10 +27,10 @@
 ### B. 원본 repository Fork 뜨기
 
 1. base가 될 Max의 repository를 복사해, 내 Repository로 만들기
-  * 강사의 Github repository로 이동하여, 화면 우상단의 `\[Fork]` 버튼 클릭
+  * 강사의 Github repository로 이동하여, 화면 우상단의 `[Fork]` 버튼 클릭
   * \[참고] 6기의 경우 강사의 Github repository는 다음과 같음: https://github.com/keeyong/data-engineering-batch6
 2. git 주소 복사하기
-  * 화면 우상단의 초록색 `\[Code]` 버튼 클릭
+  * 화면 우상단의 초록색 `[Code]` 버튼 클릭
   * `https://github.com/...` 오른쪽의 복사 버튼(네모 두개 겹친 모양) 클릭
 
 
