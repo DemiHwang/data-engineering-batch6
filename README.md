@@ -46,7 +46,7 @@
   * `echo "dags" >> .git/info/sparse-checkout`
   * `git pull origin main`
   * `git branch --set-upstream-to=origin/main master`
-  * `git pull origin master`
+  * `git pull`
 3. 연결이 잘 됐는지 확인하기
   * `ls dags` 명령어 입력했을 때 에러가 안뜨면 성공
 
